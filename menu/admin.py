@@ -10,4 +10,5 @@ class MenuCategoriesAdmin(admin.ModelAdmin):
 
 @admin.register(DishesModel)
 class DishesAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("dish_name", "price", "category")
+    list_filter = ("category",)
