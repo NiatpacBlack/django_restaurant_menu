@@ -11,4 +11,5 @@ class MenuCategoriesAdmin(admin.ModelAdmin):
 @admin.register(DishesModel)
 class DishesAdmin(admin.ModelAdmin):
     list_display = ("dish_name", "price", "category")
+    list_editable = ("price",)
     list_filter = ("category",)

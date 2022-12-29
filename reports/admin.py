@@ -5,6 +5,6 @@ from .models import SelectionDishesModel
 
 @admin.register(SelectionDishesModel)
 class SelectionDishesAdmin(admin.ModelAdmin):
-    search_fields = ("username__username",)
+    search_fields = ("username__username__istartswith",)
     list_display = ("dish", "selection_time", "username")
     list_filter = ("username",)
