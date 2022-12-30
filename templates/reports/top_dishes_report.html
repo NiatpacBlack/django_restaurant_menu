@@ -1,0 +1,82 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+    <figure class="highcharts-figure">
+        <div id="report-container"></div>
+        <p class="highcharts-description">
+            <b><i>График отображает популярные блюда на основе количества нажатий на каждое блюдо в меню.</i></b>
+        </p>
+    </figure>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+    <script type="text/javascript">
+        Highcharts.chart('report-container', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                align: 'center',
+                text: 'Топ блюд за период с {{ calendar_from }} по {{ calendar_to }}'
+            },
+            subtitle: {
+                align: 'center',
+                text: 'Нажми на блюдо, чтобы увидеть подробности.'
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: true
+                }
+            },
+            xAxis: {
+                type: 'category'
+            },
+            yAxis: {
+                title: {
+                    text: 'Количество нажатий'
+                }
+
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y}'
+                    }
+                }
+            },
+
+            tooltip: {
+                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                pointFormat: '<span style="color:{point.color}">{point.name}</span>: Выбрано <b>{point.y}</b> раза.<br/>'
+            },
+
+            series: [
+                {
+                    name: "Товар",
+                    colorByPoint: true,
+                    data: [
+                        {% for dish_data in top_dishes_data %}
+                            {
+                                name: "{{ dish_data.name }}",
+                                y: {{ dish_data.count|floatformat }},
+                            },
+                        {% endfor %}
+
+                    ]
+                }
+            ],
+
+        })
+        ;
+
+    </script>
+
+{% endblock %}

@@ -14,7 +14,7 @@ class SelectionDishesModel(models.Model):
     selection_time = models.DateTimeField(default=timezone.now, verbose_name="Время нажатия")
 
     def __str__(self):
-        return f"{self.dish} выбрано {str(self.selection_time)[:19]}"
+        return str(self.dish_id)
 
     class Meta:
         db_table = "selection_dishes"

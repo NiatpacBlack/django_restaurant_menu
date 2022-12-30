@@ -1,0 +1,17 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+    <form action="{% url 'top_dishes_report' %}" method="post">
+        {% csrf_token %}
+        <label for="calendar_from">Выберите дату от:
+            <input type="date" name="calendar_from">
+        </label><br>
+        <label for="calendar_to">Выберите дату до:
+            <input type="date" name="calendar_to">
+        </label><br>
+        <label for="max_elements">Максимальное количество элементов:
+            <input type="number" name="max_elements" min="1" max="15">
+        </label><br>
+        <input type="submit" value="Получить отчет">
+    </form>
+{% endblock %}
