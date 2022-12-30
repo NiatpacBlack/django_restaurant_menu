@@ -163,12 +163,6 @@ JAZZMIN_SETTINGS = {
 
         # external url that opens in a new window (Permissions can be added)
         {"name": "Помощь", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
-
-        # model admin to link to (Permissions checked against model)
-        {"name": "Пользователи", "model": "auth.User"},
-
-        # App with dropdown menu to all its models pages (Permissions checked against models)
-        {"name": "Отчеты", "app": "reports"},
     ],
 
     #############
@@ -202,13 +196,18 @@ JAZZMIN_SETTINGS = {
 
     # Custom links to append to app groups, keyed on app name
     "custom_links": {
-        "reports": [{
-            "name": "Посмотреть отчет по популярным блюдам",
-            "url": "top_dishes_report",
-            "icon": "fas fa-chart-bar",
-            # a list of permissions the user must have to see this link (optional)
-            # "permissions": ["books.view_book"]
-        }]
+        "reports": [
+            {
+                "name": "Посмотреть отчет по популярным блюдам",
+                "url": "top_dishes_report",
+                "icon": "fas fa-chart-bar",
+            },
+            {
+                "name": "Посмотреть отчет по популярным пользователям",
+                "url": "top_users_report",
+                "icon": "fas fa-chart-bar",
+            },
+        ]
     },
 
     "icons": {

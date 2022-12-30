@@ -1,9 +1,9 @@
 {% extends "admin/base_site.html" %}
 {% block content %}
     <figure class="highcharts-figure">
-        <div id="report-container"></div>
+        <div id="report-container" style="width: 70vw; height: 70vh;"></div>
         <p class="highcharts-description">
-            <b><i>График отображает популярные блюда на основе количества нажатий на каждое блюдо в меню.</i></b>
+            <b><i>{{ report_info }}</i></b>
         </p>
     </figure>
     <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -20,11 +20,11 @@
             },
             title: {
                 align: 'center',
-                text: 'Топ блюд за период с {{ calendar_from }} по {{ calendar_to }}'
+                text: '{{ report_title }}'
             },
             subtitle: {
                 align: 'center',
-                text: 'Нажми на блюдо, чтобы увидеть подробности.'
+                text: 'Наведи мышку на колонку, чтобы увидеть подробности.'
             },
             accessibility: {
                 announceNewData: {
@@ -60,13 +60,13 @@
 
             series: [
                 {
-                    name: "Товар",
+                    name: '{{ column_name }}',
                     colorByPoint: true,
                     data: [
-                        {% for dish_data in top_dishes_data %}
+                        {% for position_data in top_position_data %}
                             {
-                                name: "{{ dish_data.name }}",
-                                y: {{ dish_data.count|floatformat }},
+                                name: "{{ position_data.name }}",
+                                y: {{ position_data.count|floatformat }},
                             },
                         {% endfor %}
 
