@@ -5,14 +5,14 @@ from django.contrib.auth.models import User
 from .models import SelectionDishesModel
 
 
-def add_selection_in_selection_dishes_table(username: str, dish_id: int):
+def add_selection_in_selection_dishes_table(username: str, dish_id: int) -> None:
     """
     Добавляет данные о пользователе и блюде, которое пользователь выбрал для просмотра, в таблицу selection_dishes.
     """
     SelectionDishesModel.objects.create(username=username, dish_id=dish_id)
 
 
-def get_top_dishes_data(data_from: str, data_to: str, limit: int) -> list[dict[str, str | int], ...]:
+def get_top_dishes_data(data_from: str, data_to: str, limit: int) -> list[dict[str, str], ...]:
     """
     Возвращает список кортежей с данными типа (название, количество нажатий) о наиболее популярных блюдах.
 
@@ -31,7 +31,7 @@ def get_top_dishes_data(data_from: str, data_to: str, limit: int) -> list[dict[s
     return [{"name": el.dish_name, "count": el.selected_count} for el in queryset]
 
 
-def get_top_users_data(data_from: str, data_to: str, limit: int) -> list[dict[str, str | int], ...]:
+def get_top_users_data(data_from: str, data_to: str, limit: int) -> list[dict[str, str], ...]:
     """
     Возвращает список кортежей с данными типа (имя пользователя, количество нажатий) о самых активных пользователях.
 
@@ -48,3 +48,26 @@ def get_top_users_data(data_from: str, data_to: str, limit: int) -> list[dict[st
         """
     queryset = User.objects.raw(raw_query)
     return [{"name": el.username, "count": el.selected_count} for el in queryset]
+
+
+def get_top_users_from_category(data_from: str, data_to: str, category_id: str, limit: str) \
+        -> list[dict[str, str, str], ...]:
+    """
+    Возвращает список кортежей с данными о самых активных пользователях в конкретной категории с id = category_id.
+
+    Данные возвращаются в формате (имя пользователя, название категории, количество нажатий).
+    Данные о пользователях получаются в количестве limit пользователей, в диапазоне дат от data_from до data_to.
+    """
+
+    raw_query = fr"""
+        select au.id, au.username, mc.category_name, count(sd.username_id) as selected_count from selection_dishes sd
+        join dishes d on d.id = sd.dish_id
+        join auth_user au on au.id = sd.username_id
+        join menu_categories mc on mc.id = d.category_id 
+        where category_id = {category_id} and sd.selection_time >= '{data_from or '2022-01-01'} 00:00:01' and not sd.selection_time >= '{data_to or date.today()} 23:59:59'
+        group by au.id, au.username, mc.category_name
+        order by selected_count desc
+        limit {limit}
+        """
+    queryset = User.objects.raw(raw_query)
+    return [{"name": el.username, "category": el.category_name, "count": el.selected_count} for el in queryset]

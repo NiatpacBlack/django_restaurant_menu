@@ -207,6 +207,11 @@ JAZZMIN_SETTINGS = {
                 "url": "top_users_report",
                 "icon": "fas fa-chart-bar",
             },
+            {
+                "name": "Посмотреть отчет по популярным пользователям в выбранной категории",
+                "url": "top_users_from_category_report",
+                "icon": "fas fa-chart-bar",
+            },
         ]
     },
 
