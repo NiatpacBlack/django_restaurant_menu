@@ -16,14 +16,28 @@
               crossorigin="anonymous">
     {% endblock %}
 </head>
-<body class="d-flex flex-column">
+<body class="d-flex flex-column bg-light-subtle">
 {% block body %}
 
     {% block header %}
+        <div class="d-flex justify-content-between">
+            <form action="admin/">
+                <button class='btn btn-inline-primary p-3' type="submit"></button>
+            </form>
+            <div class="d-flex justify-content-between">
+                <p class="mt-2 pt-1 mx-1"><i>{{ user.username }}</i></p>
+                <form action="admin/logout">
+                    <button class='btn btn-danger m-1' type="submit">Выход</button>
+                </form>
+            </div>
+
+        </div>
     {% endblock %}
 
-    {% block content %}
-    {% endblock %}
+    <div class="container text-center">
+        {% block content %}
+        {% endblock %}
+    </div>
 
     {% block footer %}
     {% endblock %}

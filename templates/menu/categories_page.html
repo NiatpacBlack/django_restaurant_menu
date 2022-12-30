@@ -1,9 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
+    <h1 class="display-5 mb-5">Добро пожаловать в наш ресторан!</h1>
     {% for category in categories %}
-        <form action="{% url 'category' category.id %}" method="get" class="form-inline my-2 my-lg-0">
-            <button class="btn btn-outline-success my-2 my-sm-0 mr-2"
-                    type="submit">{{ category.category_name }}</button>
-        </form>
+        <div class="container-fluid mt-2">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="card text-center shadow-sm rounded">
+                            <div class="card-body p-0">
+                                <a href="{% url 'category' category.id %}" class="btn btn-primary p-2 w-100 h-100"><b class="shadow-lg">{{ category.category_name }}</b></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     {% endfor %}
 {% endblock %}

@@ -1,15 +1,27 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div>
-        {% for parameters in dish %}
-            <form action="{% url 'category' parameters.category_id %}" method="get" class="form-inline my-2 my-lg-0">
-                <button class="btn btn-danger my-2 my-sm-0 mr-2" type="submit">Назад</button>
-            </form>
-            <h1>{{ parameters.dish_name }}</h1>
-            <h1>{{ parameters.category }}</h1>
-            <h2>{{ parameters.price }}</h2>
-            <p>{{ parameters.description }}</p>
-            <p>{{ parameters.in_stock }}</p>
+    {% for parameters in dish %}
+        <h1 class="display-5 mb-3">{{ parameters.category }}: {{ parameters.dish_name }}</h1>
+        <h2 class="display-6 mb-5">Цена: {{ parameters.price }} p.</h2>
+        <h6>{{ parameters.description }}</h6>
+        {% if not parameters.in_stock %}
+            <h3 class="display-6">В данный момент этой позиции нет в продаже</h3>
+        {% endif %}
+        <div class="container-fluid mt-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="card text-center shadow-sm rounded">
+                            <div class="card-body p-0">
+                                <a href="{% url 'category' parameters.category_id %}"
+                                   class="btn btn-inline-danger p-2 w-100 h-100"><b
+                                        class="shadow-lg">Назад</b></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        {% endfor %}
+        </div>
+    {% endfor %}
+
 {% endblock %}

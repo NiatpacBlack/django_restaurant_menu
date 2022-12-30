@@ -1,12 +1,34 @@
 {% extends 'base.html' %}
 {% block content %}
-    <form action="{% url 'menu' %}" method="get" class="form-inline my-2 my-lg-0">
-        <button class="btn btn-danger my-2 my-sm-0 mr-2" type="submit">Назад</button>
-    </form>
+    <h1 class="display-5 mb-5">Выберите блюдо из категории</h1>
+    <div class="container-fluid mt-2">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="card text-center shadow-sm rounded">
+                        <div class="card-body p-0">
+                            <a href="{% url 'menu' %}" class="btn btn-inline-danger p-2 w-100 h-100"><b
+                                    class="shadow-lg">Назад</b></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     {% for dish in dishes %}
-        <form action="{% url 'dish' dish.id %}" method="get" class="form-inline my-2 my-lg-0">
-            <button class="btn btn-outline-success my-2 my-sm-0 mr-2"
-                    type="submit">{{ dish.dish_name }}</button>
-        </form>
+        <div class="container-fluid mt-2">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="card text-center shadow-sm rounded">
+                            <div class="card-body p-0">
+                                <a href="{% url 'dish' dish.id %}" class="btn btn-primary p-2 w-100 h-100"><b
+                                        class="shadow-lg">{{ dish.dish_name }}</b></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     {% endfor %}
 {% endblock %}
