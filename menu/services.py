@@ -8,6 +8,13 @@ def get_all_categories_from_menu():
     return MenuCategoriesModel.objects.all()
 
 
+def get_not_empty_category_id() -> list[int, ...]:
+    """Возвращает список id категорий в которых есть блюда."""
+    queryset = DishesModel.objects.all()
+    return list(set([el.category_id for el in queryset]))
+
+
+
 def get_all_dishes_from_category_or_404(category_id: int):
     """
     Возвращает QuerySet со всеми блюдами из отдельной категории id которой совпадает с id в таблице категорий.

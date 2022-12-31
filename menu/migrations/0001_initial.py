@@ -8,36 +8,70 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='MenuCategoriesModel',
+            name="MenuCategoriesModel",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('category_name', models.CharField(max_length=255, verbose_name='Категория')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "category_name",
+                    models.CharField(max_length=255, verbose_name="Категория"),
+                ),
             ],
             options={
-                'verbose_name': 'Категория меню',
-                'verbose_name_plural': 'Категории меню',
-                'db_table': 'menu_categories',
+                "verbose_name": "Категория меню",
+                "verbose_name_plural": "Категории меню",
+                "db_table": "menu_categories",
             },
         ),
         migrations.CreateModel(
-            name='DishesModel',
+            name="DishesModel",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('dish_name', models.CharField(max_length=255, verbose_name='Название блюда')),
-                ('price', models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Цена')),
-                ('description', models.TextField(blank=True, verbose_name='Описание')),
-                ('in_stock', models.BooleanField(default=True)),
-                ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='dishes', to='menu.menucategoriesmodel', verbose_name='Категория блюда')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "dish_name",
+                    models.CharField(max_length=255, verbose_name="Название блюда"),
+                ),
+                (
+                    "price",
+                    models.DecimalField(
+                        decimal_places=2, max_digits=10, verbose_name="Цена"
+                    ),
+                ),
+                ("description", models.TextField(blank=True, verbose_name="Описание")),
+                ("in_stock", models.BooleanField(default=True)),
+                (
+                    "category",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="dishes",
+                        to="menu.menucategoriesmodel",
+                        verbose_name="Категория блюда",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Блюдо',
-                'verbose_name_plural': 'Блюда',
-                'db_table': 'dishes',
+                "verbose_name": "Блюдо",
+                "verbose_name_plural": "Блюда",
+                "db_table": "dishes",
             },
         ),
     ]

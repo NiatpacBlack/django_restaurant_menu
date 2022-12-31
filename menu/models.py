@@ -19,8 +19,12 @@ class DishesModel(models.Model):
     """Таблица с блюдами."""
 
     dish_name = models.CharField(max_length=255, verbose_name="Название блюда")
-    category = models.ForeignKey(MenuCategoriesModel, related_name="dishes", on_delete=models.CASCADE,
-                                 verbose_name="Категория блюда")
+    category = models.ForeignKey(
+        MenuCategoriesModel,
+        related_name="dishes",
+        on_delete=models.CASCADE,
+        verbose_name="Категория блюда",
+    )
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена")
     description = models.TextField(blank=True, verbose_name="Описание")
     in_stock = models.BooleanField(default=True, verbose_name="В наличии")

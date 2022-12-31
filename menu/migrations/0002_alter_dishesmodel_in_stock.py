@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('menu', '0001_initial'),
+        ("menu", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='dishesmodel',
-            name='in_stock',
-            field=models.BooleanField(default=True, verbose_name='В наличии'),
+            model_name="dishesmodel",
+            name="in_stock",
+            field=models.BooleanField(default=True, verbose_name="В наличии"),
         ),
     ]
