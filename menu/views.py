@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views import View
 
 from menu.services import get_all_categories_from_menu, get_all_dishes_from_category_or_404, get_dish_description_or_404
-from reports.services import add_selection_in_selection_dishes_table
+from reports.services import add_selection_in_selection_dishes_table, get_dish_report_data
 
 
 class MenuPageView(View):
@@ -39,3 +39,16 @@ class DishDescriptionPageView(View):
         return render(request, "menu/dish_description_page.html", context={
             "dish": queryset,
         })
+
+    def post(self, request, dish_id):
+        """Получает название отчета из post запроса, и выводит пользователю соответсвующий график."""
+        report_data = get_dish_report_data(report_name=self.request.POST["action"], dish_id=dish_id)
+        if report_data:
+            queryset = get_dish_description_or_404(dish_id)
+            return render(request, "menu/dish_description_page.html", context={
+                "dish": queryset,
+                "action": True,
+                "report_name": report_data["report_title"],
+                "x_axis": report_data["x_axis"],
+                "data": report_data["report_data"],
+            })

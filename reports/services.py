@@ -1,3 +1,4 @@
+import datetime
 from datetime import date
 
 from django.contrib.auth.models import User
@@ -71,3 +72,38 @@ def get_top_users_from_category(data_from: str, data_to: str, category_id: str, 
         """
     queryset = User.objects.raw(raw_query)
     return [{"name": el.username, "category": el.category_name, "count": el.selected_count} for el in queryset]
+
+
+def get_dish_report_data(report_name: str, dish_id) -> None | dict[str, str | list[str, ...] | list[int, ...]]:
+    """Возвращает данные для построения графика для отчета report_name о нажатиях на блюдо c dish_id."""
+    if report_name == "Отчет по дням недели":
+        return {
+            "report_title": "по дням недели",
+            "x_axis": ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вскр'],
+            "report_data": get_dish_report_data_by_week_days(dish_id=dish_id),
+        }
+    elif report_name == "Отчет по часам":
+        return {
+            "report_title": "по часам",
+            "x_axis": [str(number) for number in range(24)],
+            "report_data": get_dish_report_data_by_hours(dish_id=dish_id),
+        }
+
+
+def get_dish_report_data_by_week_days(dish_id: str) -> list[int, ...]:
+    """Возвращает данные о нажатиях на блюдо с dish_id по каждому дню недели."""
+    week_data_list = [0, 0, 0, 0, 0, 0, 0]
+    queryset = SelectionDishesModel.objects.filter(dish_id=dish_id)
+    for el in queryset:
+        week_data_list[datetime.datetime.weekday(el.selection_time)] += 1
+    return week_data_list
+
+
+def get_dish_report_data_by_hours(dish_id: str) -> list[int, ...]:
+    """Возвращает данные о нажатиях на блюдо с dish_id по каждому конкретному часу в сутках."""
+    hours_data_list = [0 for _ in range(24)]
+    queryset = SelectionDishesModel.objects.filter(dish_id=dish_id)
+    for el in queryset:
+        hour = int(el.selection_time.astimezone(datetime.timezone(datetime.timedelta(hours=3))).strftime('%H'))
+        hours_data_list[hour] += 1
+    return hours_data_list

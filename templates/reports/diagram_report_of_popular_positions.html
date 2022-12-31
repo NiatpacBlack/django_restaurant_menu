@@ -1,12 +1,12 @@
 {% extends "admin/base_site.html" %}
 {% block content %}
     <figure class="highcharts-figure">
-        <div id="report-container" style="width: 70vw; height: 70vh;"></div>
-        <p class="highcharts-description">
+        <div id="report-container" style="margin: auto; width: 70vw; height: 70vh;"></div>
+        <p class="highcharts-description" style="text-align: center; margin-left: 3vw;">
             <b><i>{{ report_info }}</i></b>
         </p>
     </figure>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src=" https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/data.js"></script>
     <script src="https://code.highcharts.com/modules/drilldown.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>

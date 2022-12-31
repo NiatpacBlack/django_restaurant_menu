@@ -22,6 +22,84 @@
                 </div>
             </div>
         </div>
-    {% endfor %}
+        {% if user.is_stuff or user.is_superuser %}
+            <div class="card-body p-1 m-4 shadow-sm bg-dark rounded">
+                <form action="{% url 'dish' parameters.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" name="action" value="Отчет по дням недели"
+                           class="btn p-2 w-50 h-100 text-light"
+                           placeholder="Отчет по дням недели">
+                </form>
 
+            </div>
+            <div class="card-body p-1 m-4 shadow-sm bg-dark rounded">
+                <form action="{% url 'dish' parameters.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" name="action" value="Отчет по часам" class="btn p-2 w-50 h-100 text-light"
+                           placeholder="Отчет по часам">
+                </form>
+            </div>
+        {% endif %}
+        {% if action %}
+            <figure class="highcharts-figure">
+                <div id="report-container"></div>
+                <p class="highcharts-description">
+                    Отчет формируется на основе данных о количестве нажатий на товар {{ parameters.dish_name }} в меню.
+                </p>
+            </figure>
+            <script src="https://code.highcharts.com/highcharts.js"></script>
+            <script src="https://code.highcharts.com/modules/series-label.js"></script>
+            <script src="https://code.highcharts.com/modules/exporting.js"></script>
+            <script src="https://code.highcharts.com/modules/export-data.js"></script>
+            <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+            <script type="text/javascript">
+                let x_axis = []
+                {% for el in x_axis %}
+                    x_axis.push("{{ el }}")
+                {% endfor %}
+
+                Highcharts.chart('report-container', {
+                    chart: {
+                        type: 'spline'
+                    },
+                    title: {
+                        text: 'Просмотр товара {{ parameters.dish_name }} {{ report_name }}'
+                    },
+                    xAxis: {
+                        categories: x_axis,
+                        accessibility: {
+                            description: '{{ report_name }}'
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Количество нажатий'
+                        },
+                    },
+                    tooltip: {
+                        crosshairs: true,
+                        shared: true
+                    },
+                    plotOptions: {
+                        spline: {
+                            marker: {
+                                radius: 4,
+                                lineColor: '#666666',
+                                lineWidth: 1
+                            }
+                        }
+                    },
+                    series: [{
+                        name: '{{ parameters.dish_name }}',
+                        marker: {
+                            symbol: 'square'
+                        },
+                        data: {{ data }}
+
+                    }]
+                });
+
+            </script>
+        {% endif %}
+    {% endfor %}
 {% endblock %}
