@@ -1,10 +1,10 @@
 from django.http import Http404
-
+from django.db.models.query import QuerySet
 from .models import MenuCategoriesModel, DishesModel
 
 
-def get_all_categories_from_menu():
-    """Возвращает QuerySet со всеми категориями в таблице PostModel."""
+def get_all_categories_from_menu() -> QuerySet[MenuCategoriesModel]:
+    """Возвращает QuerySet со всеми категориями из таблицы MenuCategoriesModel."""
     return MenuCategoriesModel.objects.all()
 
 
@@ -14,8 +14,7 @@ def get_not_empty_category_id() -> list[int, ...]:
     return list(set([el.category_id for el in queryset]))
 
 
-
-def get_all_dishes_from_category_or_404(category_id: int):
+def get_all_dishes_from_category_or_404(category_id: int) -> QuerySet[DishesModel]:
     """
     Возвращает QuerySet со всеми блюдами из отдельной категории id которой совпадает с id в таблице категорий.
 
@@ -27,7 +26,7 @@ def get_all_dishes_from_category_or_404(category_id: int):
     raise Http404("Категории с таким id не существует в меню.")
 
 
-def get_dish_description_or_404(dish_id: int):
+def get_dish_description_or_404(dish_id: int) -> QuerySet[DishesModel]:
     """
     Возвращает QuerySet со всеми данными о конкретном блюде id которого совпадает с id в таблице блюд.
 

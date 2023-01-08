@@ -13,7 +13,7 @@ load_dotenv()
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-pp+)0bp82im@14l%o&$)v(-tn#h=9ip$3%4*1wsa474zvnv0gc"
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -32,8 +32,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
+    "rest_framework",
+
     "menu.apps.MenuConfig",
     "reports.apps.ReportsConfig",
+    "api.apps.ApiConfig",
 ]
 
 MIDDLEWARE = [

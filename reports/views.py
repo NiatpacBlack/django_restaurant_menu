@@ -1,3 +1,4 @@
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views import View
 
@@ -13,11 +14,11 @@ class TopDishReportView(View):
     """Функции обрабатывающие запросы приходящие при открытии отчета по самым популярным блюдам."""
 
     @staticmethod
-    def get(request):
+    def get(request: HttpRequest) -> HttpResponse:
         """При открытии страницы с отчетом отображает шаблон с формой настройки параметров отчета."""
         return render(request, "reports/data_and_limit_for_report_form.html")
 
-    def post(self, request):
+    def post(self, request: HttpRequest) -> HttpResponse:
         """
         Выводит шаблон с отчетом по популярным товарам в виде графика.
 
@@ -45,11 +46,11 @@ class TopUserReportView(View):
     """Методы, обрабатывающие запросы при открытии отчета по самым популярным пользователям."""
 
     @staticmethod
-    def get(request):
+    def get(request: HttpRequest) -> HttpResponse:
         """При открытии страницы с отчетом отображает шаблон с формой настройки параметров отчета."""
         return render(request, "reports/data_and_limit_for_report_form.html")
 
-    def post(self, request):
+    def post(self, request: HttpRequest) -> HttpResponse:
         """
         Выводит шаблон с отчетом по популярным пользователям сайта в виде графика.
 
@@ -77,7 +78,7 @@ class TopUserFromCategoryReportView(View):
     """Методы, обрабатывающие запросы, при открытии отчета по самым популярным пользователям в выбранной категории."""
 
     @staticmethod
-    def get(request):
+    def get(request: HttpRequest) -> HttpResponse:
         """При открытии страницы с отчетом отображает шаблон с формой настройки параметров отчета."""
         form = DishesForm()
         return render(
@@ -88,7 +89,7 @@ class TopUserFromCategoryReportView(View):
             },
         )
 
-    def post(self, request):
+    def post(self, request: HttpRequest) -> HttpResponse:
         """
         Выводит шаблон, с отчетом по популярным пользователям в определенной категории меню, в виде графика.
 

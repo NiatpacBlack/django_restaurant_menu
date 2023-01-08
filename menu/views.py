@@ -1,3 +1,4 @@
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views import View
 
@@ -16,7 +17,7 @@ class MenuPageView(View):
     """Функции обрабатывающие запросы приходящие при открытии главной страницы сайта."""
 
     @staticmethod
-    def get(request):
+    def get(request: HttpRequest) -> HttpResponse:
         """При открытии страницы сайта отображает шаблон с кнопками соответствующими не пустым категориям меню."""
         return render(
             request,
@@ -32,7 +33,7 @@ class DishesPageView(View):
     """Функции, обрабатывающие запросы приходящие при открытии определенной категории."""
 
     @staticmethod
-    def get(request, category_id):
+    def get(request: HttpRequest, category_id: int) -> HttpResponse:
         """При открытии категории отображает шаблон с кнопками соответствующими блюдам в этой категории."""
         queryset = get_all_dishes_from_category_or_404(category_id)
         return render(
@@ -48,8 +49,11 @@ class DishDescriptionPageView(View):
     """Функции, обрабатывающие запросы приходящие при открытии определенного блюда."""
 
     @staticmethod
-    def get(request, dish_id):
-        """При открытии блюда, отображает описание этого блюда."""
+    def get(request: HttpRequest, dish_id: int) -> HttpResponse:
+        """
+        При открытии блюда, отображает описание этого блюда.
+        Добавляет информацию о нажатии на блюдо в таблицу для статистики.
+        """
         queryset = get_dish_description_or_404(dish_id)
         add_selection_in_selection_dishes_table(request.user, dish_id)
         return render(
@@ -60,7 +64,7 @@ class DishDescriptionPageView(View):
             },
         )
 
-    def post(self, request, dish_id):
+    def post(self, request: HttpRequest, dish_id: int) -> HttpResponse:
         """Получает название отчета из post запроса, и выводит пользователю соответсвующий график."""
         report_data = get_dish_report_data(
             report_name=self.request.POST["action"], dish_id=dish_id

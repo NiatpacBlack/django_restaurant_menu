@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from .models import SelectionDishesModel
 
 
-def add_selection_in_selection_dishes_table(username: str, dish_id: int) -> None:
+def add_selection_in_selection_dishes_table(username: User.username, dish_id: int) -> None:
     """
     Добавляет данные о пользователе и блюде, которое пользователь выбрал для просмотра, в таблицу selection_dishes.
     """
@@ -30,7 +30,7 @@ def get_top_dishes_data(
         limit {limit}
         """
 
-    queryset = SelectionDishesModel.objects.raw(raw_query)
+    queryset = User.objects.raw(raw_query)
     return [{"name": el.dish_name, "count": el.selected_count} for el in queryset]
 
 

@@ -15,10 +15,10 @@
 ![JM19qVFy4J](https://user-images.githubusercontent.com/84034483/210131049-25cd6d22-ab82-4472-8ee2-7c7eb9b63c6c.gif)
 
 ## Запуск проекта
-   * Версия python 3.10+
+   * ![Python Version](https://img.shields.io/badge/python-3.10-green) ![Code Style](https://img.shields.io/badge/code%20style-black-blue) ![Django Version](https://img.shields.io/badge/django-4.1-green)
    * База данных PostgreSQL 15.1
    * Устанавливаем зависимости из requirements.txt: `pip install -r requirements.txt` Для Unix-систем вместо `pip` потребуется `pip3`.
-   * Для подключения к базе данных добавьте в переменные окружения:
+   * Для подключения к базе данных добавьте в переменные окружения в файл .env.example, **файл переименуйте в .env**:
      - `DB_NAME` (имя вашей базы данных PostgreSQL)
      - `DB_USER` (имя вашего пользователя PostgreSQL)
      - `DB_PASSWORD` (пароль вашего пользователя PostgreSQL)
