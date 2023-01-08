@@ -15,11 +15,12 @@ def add_selection_in_selection_dishes_table(username: User.username, dish_id: in
 
 def get_top_dishes_data(
     data_from: str, data_to: str, limit: int
-) -> list[dict[str, str], ...]:
+) -> list[dict[str, str], ...] | list:
     """
     Возвращает список кортежей с данными типа (название, количество нажатий) о наиболее популярных блюдах.
 
     Данные о блюдах получаются в количестве limit блюд, в диапазоне дат от data_from до data_to.
+    При отсутствии данных вернется пустой список.
     """
     raw_query = rf"""
         select dish_id as id, dish_name, count(dish_id) as selected_count  
@@ -36,11 +37,12 @@ def get_top_dishes_data(
 
 def get_top_users_data(
     data_from: str, data_to: str, limit: int
-) -> list[dict[str, str], ...]:
+) -> list[dict[str, str], ...] | list:
     """
     Возвращает список кортежей с данными типа (имя пользователя, количество нажатий) о самых активных пользователях.
 
     Данные о пользователях получаются в количестве limit пользователей, в диапазоне дат от data_from до data_to.
+    При отсутствии данных вернется пустой список.
     """
 
     raw_query = rf"""
@@ -56,7 +58,7 @@ def get_top_users_data(
 
 
 def get_top_users_from_category(
-    data_from: str, data_to: str, category_id: str, limit: str
+    data_from: str, data_to: str, category_id: str, limit: int
 ) -> list[dict[str, str, str], ...]:
     """
     Возвращает список кортежей с данными о самых активных пользователях в конкретной категории с id = category_id.
@@ -84,7 +86,7 @@ def get_top_users_from_category(
 
 def get_dish_report_data(
     report_name: str, dish_id
-) -> None | dict[str, str | list[str, ...] | list[int, ...]]:
+) -> None | dict[str, str | list[str, ...] | list[int, ...]] | list:
     """Возвращает данные для построения графика для отчета report_name о нажатиях на блюдо c dish_id."""
     if report_name == "Отчет по дням недели":
         return {
@@ -100,7 +102,7 @@ def get_dish_report_data(
         }
 
 
-def get_dish_report_data_by_week_days(dish_id: str) -> list[int, ...]:
+def get_dish_report_data_by_week_days(dish_id: str) -> list[int, ...] | list:
     """Возвращает данные о нажатиях на блюдо с dish_id по каждому дню недели."""
     week_data_list = [0 for _ in range(7)]
     queryset = SelectionDishesModel.objects.filter(dish_id=dish_id)
@@ -109,7 +111,7 @@ def get_dish_report_data_by_week_days(dish_id: str) -> list[int, ...]:
     return week_data_list
 
 
-def get_dish_report_data_by_hours(dish_id: str) -> list[int, ...]:
+def get_dish_report_data_by_hours(dish_id: str) -> list[int, ...] | list:
     """Возвращает данные о нажатиях на блюдо с dish_id по каждому конкретному часу в сутках."""
     hours_data_list = [0 for _ in range(24)]
     queryset = SelectionDishesModel.objects.filter(dish_id=dish_id)
