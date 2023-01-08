@@ -1,8 +1,20 @@
 from rest_framework import serializers
-from menu.models import MenuCategoriesModel
+from menu.models import MenuCategoriesModel, DishesModel
 
 
-class MenuPageSerializer(serializers.ModelSerializer):
+class MenuCategoriesSerializer(serializers.ModelSerializer):
     class Meta:
         model = MenuCategoriesModel
-        fields = ['id', 'category_name']
+        fields = '__all__'
+
+
+class FullDishesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DishesModel
+        fields = '__all__'
+
+
+class SimpleDishesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DishesModel
+        fields = ['id', 'dish_name']

@@ -2,7 +2,7 @@ from django.http import Http404
 from django.test import TestCase
 from django.db.models.query import QuerySet
 from ..services import get_all_categories_from_menu, get_not_empty_category_id, get_all_dishes_from_category_or_404, \
-    get_dish_description_or_404
+    get_dish_description_or_404, get_all_dishes_from_menu
 from ..models import DishesModel, MenuCategoriesModel
 
 
@@ -22,6 +22,9 @@ class MenuServicesTest(TestCase):
 
     def test_get_all_categories_from_menu(self) -> None:
         self.assertEqual(type(get_all_categories_from_menu()), QuerySet)
+
+    def test_get_all_dishes_from_menu(self) -> None:
+        self.assertEqual(type(get_all_dishes_from_menu()), QuerySet)
 
     def test_get_not_empty_category_id(self) -> None:
         self.assertEqual(type(get_not_empty_category_id()), list)
